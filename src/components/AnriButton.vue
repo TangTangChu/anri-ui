@@ -1,0 +1,149 @@
+<template>
+    <component
+        :is="tagName"
+        v-bind="rootProps"
+        :class="[
+            baseClass,
+            hasDefault
+                ? sizeClasses[props.size]
+                : iconOnlySizeClasses[props.size],
+            variantClasses[props.variant],
+            props.block ? 'w-full' : '',
+            props.disabled || props.loading
+                ? 'pointer-events-none opacity-60'
+                : 'cursor-pointer',
+        ]"
+    >
+        <span
+            v-if="(hasIcon || props.loading) && props.iconPlacement === 'start'"
+            class="flex shrink-0 items-center justify-center"
+            :class="iconBoxClasses[props.size]"
+            aria-hidden="true"
+        >
+            <AnriSpinner v-if="props.loading" size="sm" color="current" />
+            <slot v-else name="icon" :class="iconClasses[props.size]" />
+        </span>
+
+        <span v-if="hasDefault" class="min-w-0 leading-none">
+            <slot />
+        </span>
+
+        <span
+            v-if="(hasIcon || props.loading) && props.iconPlacement === 'end'"
+            class="flex shrink-0 items-center justify-center"
+            :class="iconBoxClasses[props.size]"
+            aria-hidden="true"
+        >
+            <AnriSpinner v-if="props.loading" size="sm" color="current" />
+            <slot v-else name="icon" :class="iconClasses[props.size]" />
+        </span>
+    </component>
+</template>
+
+<script setup lang="ts">
+import { computed, useSlots } from "vue";
+import { RouterLink, type RouteLocationRaw } from "vue-router";
+import AnriSpinner from "./AnriSpinner.vue";
+
+type AnriButtonVariant = "primary" | "soft" | "outline" | "ghost";
+type AnriButtonSize = "sm" | "md" | "lg";
+type AnriButtonType = "button" | "submit" | "reset";
+type AnriButtonIconPlacement = "start" | "end";
+
+const props = withDefaults(
+    defineProps<{
+        to?: RouteLocationRaw;
+        href?: string;
+        target?: string;
+        rel?: string;
+        type?: AnriButtonType;
+        variant?: AnriButtonVariant;
+        size?: AnriButtonSize;
+        iconPlacement?: AnriButtonIconPlacement;
+        disabled?: boolean;
+        loading?: boolean;
+        block?: boolean;
+    }>(),
+    {
+        type: "button",
+        variant: "primary",
+        size: "md",
+        iconPlacement: "start",
+        disabled: false,
+        loading: false,
+        block: false,
+    },
+);
+
+const slots = useSlots();
+
+const baseClass =
+    "inline-flex min-w-0 items-center justify-center rounded-xl border font-semibold whitespace-nowrap align-middle select-none transition-[background-color,border-color,color,box-shadow] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20";
+
+const sizeClasses: Record<AnriButtonSize, string> = {
+    sm: "min-h-9 gap-2 px-4 text-sm",
+    md: "min-h-11 gap-2.5 px-5 text-sm",
+    lg: "min-h-12 gap-3 px-6 text-base",
+};
+
+const iconOnlySizeClasses: Record<AnriButtonSize, string> = {
+    sm: "h-9 w-9 p-0 text-sm",
+    md: "h-11 w-11 p-0 text-sm",
+    lg: "h-12 w-12 p-0 text-base",
+};
+
+const variantClasses: Record<AnriButtonVariant, string> = {
+    primary:
+        "border-primary/70 bg-primary text-on-primary hover:bg-primary/90 active:bg-primary/80",
+    soft: "border-primary/10 bg-primary/10 text-primary hover:bg-primary/15 active:bg-primary/20",
+    outline:
+        "border-primary/20 bg-surface/80 text-primary hover:bg-primary/5 active:bg-primary/10",
+    ghost: "border-transparent bg-transparent text-on-background hover:bg-primary/5 hover:text-primary active:bg-primary/10",
+};
+
+const iconBoxClasses: Record<AnriButtonSize, string> = {
+    sm: "h-4 w-4",
+    md: "h-5 w-5",
+    lg: "h-5 w-5",
+};
+
+const iconClasses: Record<AnriButtonSize, string> = {
+    sm: "h-4 w-4",
+    md: "h-5 w-5",
+    lg: "h-5 w-5",
+};
+
+const hasIcon = computed(() => Boolean(slots.icon));
+const hasDefault = computed(() => Boolean(slots.default));
+
+const tagName = computed(() => {
+    if (props.to) return RouterLink;
+    if (props.href) return "a";
+    return "button";
+});
+
+const rootProps = computed(() => {
+    if (props.to) {
+        return {
+            to: props.to,
+            "aria-disabled": props.disabled || props.loading || undefined,
+            tabindex: props.disabled || props.loading ? -1 : undefined,
+        };
+    }
+
+    if (props.href) {
+        return {
+            href: props.disabled || props.loading ? undefined : props.href,
+            target: props.target,
+            rel: props.rel,
+            "aria-disabled": props.disabled || props.loading || undefined,
+            tabindex: props.disabled || props.loading ? -1 : undefined,
+        };
+    }
+
+    return {
+        type: props.type,
+        disabled: props.disabled || props.loading,
+    };
+});
+</script>

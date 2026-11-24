@@ -1,0 +1,23 @@
+/*
+ * Anri UI theme contract.
+ *
+ * The package owns the Tailwind color mappings; the consuming app owns the
+ * values. Define these CSS variables in :root and override them in .dark:
+ *
+ * --primary, --on-primary, --secondary, --background, --on-background,
+ * --surface, --on-surface, --surface-container
+ */
+
+@theme {
+    --color-primary: var(--primary, #ff8fa3);
+    --color-on-primary: var(--on-primary, #ffffff);
+    --color-secondary: var(--secondary, #74d2fc);
+    --color-background: var(--background, #ffffff);
+    --color-on-background: var(--on-background, #333333);
+    --color-surface: var(--surface, #fcfcfc);
+    --color-on-surface: var(--on-surface, #333333);
+    --color-surface-container: var(--surface-container, #f0f0f0);
+}
+
+/* Tailwind 4 does not scan node_modules by default. */
+@source "../src/components";

@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@import "../../styles/theme.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --primary: #ff8fa3;
+    --on-primary: #ffffff;
+    --secondary: #74d2fc;
+    --background: #ffffff;
+    --on-background: #333333;
+    --surface: #fcfcfc;
+    --on-surface: #333333;
+    --surface-container: #f0f0f0;
+}
+
+.dark {
+    --primary: #d94b68;
+    --on-primary: #ffffff;
+    --secondary: #3898c6;
+    --background: #1c1a1b;
+    --on-background: #f4f0f1;
+    --surface: #262325;
+    --on-surface: #f4f0f1;
+    --surface-container: #2f2c2d;
+}
+
+html,
+body,
+#app {
+    min-height: 100%;
+}
+
+body {
+    @apply bg-background text-on-background;
+    font-family:
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        sans-serif;
+}
