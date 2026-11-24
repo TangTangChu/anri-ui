@@ -95,7 +95,7 @@ const iconOnlySizeClasses: Record<AnriButtonSize, string> = {
 const variantClasses: Record<AnriButtonVariant, string> = {
     primary:
         "border-primary/70 bg-primary text-on-primary hover:bg-primary/90 active:bg-primary/80",
-    soft: "border-primary/10 bg-primary/10 text-primary hover:bg-primary/15 active:bg-primary/20",
+    soft: "border-transparent bg-primary/10 text-primary hover:bg-primary/15 active:bg-primary/20",
     outline:
         "border-primary/20 bg-surface/80 text-primary hover:bg-primary/5 active:bg-primary/10",
     ghost: "border-transparent bg-transparent text-on-background hover:bg-primary/5 hover:text-primary active:bg-primary/10",
