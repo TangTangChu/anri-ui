@@ -19,5 +19,3 @@
 | `AnriPrevNextNav` | 显示上一篇和下一篇导航。 |
 | `AnriThemeToggle` | 受控组件，通过 `is-dark` 和 `toggle` 事件工作。 |
 | `AnriLocaleSelect` | 受控组件，通过 `locales` 和 `v-model` 工作。 |
-
-`AnriCharCard` 和 `AnriPageTransition` 属于博客业务组件，不在本包范围内。

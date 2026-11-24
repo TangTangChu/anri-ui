@@ -51,6 +51,7 @@
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
+import { useAnriLabels } from "../composables/useAnriLabels";
 import type { AnriPrevNextLabels, AnriPrevNextTarget } from "../types";
 
 const props = defineProps<{
@@ -59,9 +60,14 @@ const props = defineProps<{
     labels?: AnriPrevNextLabels;
 }>();
 
-const text = computed(() => ({
-    nav: props.labels?.nav ?? "Article navigation",
-    prev: props.labels?.prev ?? "Previous",
-    next: props.labels?.next ?? "Next",
-}));
+const injectedLabels = useAnriLabels();
+
+const text = computed(() => {
+    const labels = injectedLabels?.value?.prevNext;
+    return {
+        nav: props.labels?.nav ?? labels?.nav ?? "Article navigation",
+        prev: props.labels?.prev ?? labels?.prev ?? "Previous",
+        next: props.labels?.next ?? labels?.next ?? "Next",
+    };
+});
 </script>

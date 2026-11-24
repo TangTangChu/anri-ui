@@ -38,7 +38,7 @@
                         v-if="showClose"
                         type="button"
                         class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--on-surface)_5%,transparent)] text-[color-mix(in_srgb,var(--on-surface)_70%,transparent)] transition-colors hover:bg-on-background/10 active:scale-95"
-                        :aria-label="closeLabel"
+                        :aria-label="closeText"
                         @click="emit('update:show', false)"
                     >
                         <XMarkIcon class="h-6 w-6" aria-hidden="true" />
@@ -53,9 +53,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { useAnriLabels } from "../composables/useAnriLabels";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         show: boolean;
         title?: string;
@@ -67,8 +69,13 @@ withDefaults(
         show: false,
         showClose: true,
         panelClass: "",
-        closeLabel: "Close",
     },
+);
+
+const injectedLabels = useAnriLabels();
+
+const closeText = computed(
+    () => props.closeLabel ?? injectedLabels?.value?.close ?? "Close",
 );
 
 const emit = defineEmits<{

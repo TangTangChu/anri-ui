@@ -111,7 +111,82 @@ module 负责以下配置：
 
 ## 文案
 
-组件不依赖 vue-i18n。需要显示文案时，通过 `labels` 或单独的 `label` prop 传入：
+组件不依赖 vue-i18n，默认使用内置英文文案。文案可以全局提供，也可以在单个组件上覆盖。
+
+### 全局 labels
+
+| 字段 | 使用位置 |
+| --- | --- |
+| `close` | Dialog、Drawer、Lightbox |
+| `loading` | Spinner、LoadMore |
+| `pagination` | Pagination |
+| `loadMore` | LoadMore |
+| `prevNext` | PrevNextNav |
+| `lightbox` | Lightbox |
+| `switchLanguage` | LocaleSelect |
+| `toggleTheme` | ThemeToggle |
+
+在应用根组件调用一次 `provideAnriLabels`：
+
+```vue
+<script setup lang="ts">
+import { provideAnriLabels } from "anri-ui";
+
+provideAnriLabels({
+    close: "关闭",
+    loading: "加载中...",
+    pagination: {
+        nav: "分页导航",
+        prev: "上一页",
+        next: "下一页",
+        page: (page) => `第 ${page} 页`,
+    },
+    loadMore: {
+        loadMore: "加载更多",
+        noMore: "没有更多",
+    },
+    prevNext: {
+        nav: "上下篇导航",
+        prev: "上一篇",
+        next: "下一篇",
+    },
+    lightbox: {
+        prev: "上一张",
+        next: "下一张",
+        zoom: "滚轮缩放",
+        pan: "滚轮上下滑动",
+    },
+    switchLanguage: "切换语言",
+    toggleTheme: "切换主题",
+});
+</script>
+```
+
+使用 i18n 时，用 `computed` 包起来，并把值换成 `t()`。key 由应用自己定义：
+
+```ts
+const { t } = useI18n();
+
+provideAnriLabels(
+    computed(() => ({
+        close: t("ui.close"),
+        loading: t("ui.loading"),
+        pagination: {
+            nav: t("ui.pagination.nav"),
+            prev: t("ui.pagination.prev"),
+            next: t("ui.pagination.next"),
+            page: (page) => t("ui.pagination.page", { page }),
+        },
+        // ...
+    })),
+);
+```
+
+组件取值顺序是 props、全局 labels、内置默认值。局部需要不同文案时，继续传 `:labels` 或 `label`。
+
+`provideAnriLabels` 使用 Vue 的 `provide`，必须在 setup 中调用。Nuxt 在 `app.vue` 的 setup 中调用一次即可。
+
+### 局部覆盖
 
 ```vue
 <AnriPagination

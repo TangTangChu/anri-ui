@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import AnriButton from "./AnriButton.vue";
+import { useAnriLabels } from "../composables/useAnriLabels";
 import type { AnriLoadMoreLabels } from "../types";
 
 const props = defineProps<{
@@ -31,9 +32,20 @@ defineEmits<{
     (e: "load-more"): void;
 }>();
 
-const text = computed(() => ({
-    loading: props.labels?.loading ?? "Loading...",
-    loadMore: props.labels?.loadMore ?? "Load more",
-    noMore: props.labels?.noMore ?? "No more",
-}));
+const injectedLabels = useAnriLabels();
+
+const text = computed(() => {
+    const labels = {
+        ...injectedLabels?.value?.loadMore,
+        ...props.labels,
+    };
+    return {
+        loading:
+            props.labels?.loading ??
+            injectedLabels?.value?.loading ??
+            "Loading...",
+        loadMore: labels.loadMore ?? "Load more",
+        noMore: labels.noMore ?? "No more",
+    };
+});
 </script>

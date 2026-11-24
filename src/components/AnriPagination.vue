@@ -88,6 +88,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import AnriButton from "./AnriButton.vue";
+import { useAnriLabels } from "../composables/useAnriLabels";
 import type { AnriPaginationLabels } from "../types";
 
 const props = withDefaults(
@@ -106,12 +107,20 @@ const props = withDefaults(
     },
 );
 
-const text = computed(() => ({
-    nav: props.labels?.nav ?? "Pagination",
-    prev: props.labels?.prev ?? "Previous page",
-    next: props.labels?.next ?? "Next page",
-    page: props.labels?.page ?? ((page: number) => `Page ${page}`),
-}));
+const injectedLabels = useAnriLabels();
+
+const text = computed(() => {
+    const labels = injectedLabels?.value?.pagination;
+    return {
+        nav: props.labels?.nav ?? labels?.nav ?? "Pagination",
+        prev: props.labels?.prev ?? labels?.prev ?? "Previous page",
+        next: props.labels?.next ?? labels?.next ?? "Next page",
+        page:
+            props.labels?.page ??
+            labels?.page ??
+            ((page: number) => `Page ${page}`),
+    };
+});
 
 const emit = defineEmits<{
     (e: "page-change", page: number): void;

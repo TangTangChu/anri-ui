@@ -1,3 +1,5 @@
+import type { MaybeRefOrGetter } from "vue";
+
 export interface AnriSelectOption {
     value: string | number;
     label: string;
@@ -42,6 +44,15 @@ export interface AnriLightboxLabels {
     pan?: string;
 }
 
-export interface AnriDialogLabels {
+export interface AnriLabels {
     close?: string;
+    loading?: string;
+    pagination?: AnriPaginationLabels;
+    loadMore?: Omit<AnriLoadMoreLabels, "loading">;
+    prevNext?: AnriPrevNextLabels;
+    lightbox?: Omit<AnriLightboxLabels, "close">;
+    switchLanguage?: string;
+    toggleTheme?: string;
 }
+
+export type AnriLabelsSource = MaybeRefOrGetter<AnriLabels>;

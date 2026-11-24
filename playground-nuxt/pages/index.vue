@@ -23,16 +23,7 @@
 
         <AnriAlert type="info">AnriAlert</AnriAlert>
 
-        <AnriPagination
-            :current-page="1"
-            :total-pages="5"
-            :labels="{
-                nav: '分页导航',
-                prev: '上一页',
-                next: '下一页',
-                page: (page: number) => `第 ${page} 页`,
-            }"
-        />
+        <AnriPagination :current-page="1" :total-pages="5" />
 
         <!-- 验证 Nuxt plugin 已注入 image viewer 状态 -->
         <AnriLightbox />

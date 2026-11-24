@@ -7,13 +7,14 @@
         <span
             class="absolute! -m-px! h-px! w-px! overflow-hidden! whitespace-nowrap! border-0! p-0! [clip:rect(0,0,0,0)]!"
         >
-            {{ label }}
+            {{ labelText }}
         </span>
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useAnriLabels } from "../composables/useAnriLabels";
 
 const props = withDefaults(
     defineProps<{
@@ -24,8 +25,13 @@ const props = withDefaults(
     {
         size: "md",
         color: "primary",
-        label: "Loading",
     },
+);
+
+const injectedLabels = useAnriLabels();
+
+const labelText = computed(
+    () => props.label ?? injectedLabels?.value?.loading ?? "Loading",
 );
 
 const sizeClass = computed(() => {

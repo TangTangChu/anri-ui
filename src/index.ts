@@ -28,9 +28,14 @@ export {
     useImageViewer,
 } from "./composables/useImageViewer";
 export type { ImageViewerState } from "./composables/useImageViewer";
+export {
+    provideAnriLabels,
+    useAnriLabels,
+} from "./composables/useAnriLabels";
 
 export type {
-    AnriDialogLabels,
+    AnriLabels,
+    AnriLabelsSource,
     AnriLightboxLabels,
     AnriLoadMoreLabels,
     AnriLocaleOption,

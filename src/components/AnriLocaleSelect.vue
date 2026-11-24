@@ -10,8 +10,8 @@
             <button
                 class="p-2 rounded-lg text-on-background/70 hover:bg-primary/5 hover:text-primary transition-colors flex items-center justify-center gap-1"
                 :class="{ 'bg-primary/5 text-primary': isOpen }"
-                :title="label"
-                :aria-label="label"
+                :title="labelText"
+                :aria-label="labelText"
                 @click="toggle"
             >
                 <LanguageIcon class="w-5 h-5" />
@@ -27,6 +27,7 @@
 import { computed } from "vue";
 import { LanguageIcon } from "@heroicons/vue/24/outline";
 import AnriSelect from "./AnriSelect.vue";
+import { useAnriLabels } from "../composables/useAnriLabels";
 import type { AnriLocaleOption } from "../types";
 
 const props = withDefaults(
@@ -38,8 +39,16 @@ const props = withDefaults(
     }>(),
     {
         showText: false,
-        label: "Switch language",
     },
+);
+
+const injectedLabels = useAnriLabels();
+
+const labelText = computed(
+    () =>
+        props.label ??
+        injectedLabels?.value?.switchLanguage ??
+        "Switch language",
 );
 
 const emit = defineEmits<{

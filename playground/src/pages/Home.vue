@@ -56,13 +56,6 @@ const locales = [
     { code: "ja", name: "日本語" },
 ];
 
-const paginationLabels = {
-    nav: "分页导航",
-    prev: "上一页",
-    next: "下一页",
-    page: (page: number) => `第 ${page} 页`,
-};
-
 const toggleTheme = (): void => {
     isDark.value = !isDark.value;
     document.documentElement.classList.toggle("dark", isDark.value);
@@ -216,13 +209,11 @@ const toggleMore = (): void => {
             <AnriPagination
                 :current-page="page"
                 :total-pages="8"
-                :labels="paginationLabels"
                 @page-change="page = $event"
             />
             <AnriLoadMore
                 :has-more="hasMore"
                 :loading="loading"
-                :labels="{ loading: '加载中...', loadMore: '加载更多', noMore: '没有更多啦~' }"
                 @load-more="toggleMore"
             />
         </section>
@@ -249,15 +240,7 @@ const toggleMore = (): void => {
                     打开图片查看器
                 </AnriButton>
             </div>
-            <AnriLightbox
-                :labels="{
-                    close: '关闭',
-                    prev: '上一张',
-                    next: '下一张',
-                    zoom: '滚轮缩放',
-                    pan: '滚轮上下滑动',
-                }"
-            />
+            <AnriLightbox />
         </section>
 
         <section>
@@ -265,7 +248,6 @@ const toggleMore = (): void => {
             <AnriPrevNextNav
                 :prev="{ to: '/a', title: 'Page A' }"
                 :next="{ to: '/b', title: 'Page B' }"
-                :labels="{ nav: '上下篇导航', prev: '上一篇', next: '下一篇' }"
             />
         </section>
     </div>

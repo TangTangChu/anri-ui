@@ -27,7 +27,7 @@
                         v-if="showCloseButton"
                         type="button"
                         class="absolute top-4 right-4 z-10 p-2 rounded-xl text-on-background/50 hover:bg-on-background/5 hover:text-on-background transition-all duration-200 ease-out"
-                        :aria-label="closeLabel"
+                        :aria-label="closeText"
                         @click="close"
                     >
                         <XMarkIcon class="w-5 h-5" />
@@ -53,6 +53,7 @@ import {
 } from "vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import AnriOverlay from "./AnriOverlay.vue";
+import { useAnriLabels } from "../composables/useAnriLabels";
 
 const modelValue = defineModel<boolean>({ default: false });
 
@@ -76,8 +77,13 @@ const props = withDefaults(
         showCloseButton: true,
         closeOnBackdrop: true,
         maxWidth: "md",
-        closeLabel: "Close",
     },
+);
+
+const injectedLabels = useAnriLabels();
+
+const closeText = computed(
+    () => props.closeLabel ?? injectedLabels?.value?.close ?? "Close",
 );
 
 const emit = defineEmits<{

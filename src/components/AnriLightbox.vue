@@ -121,6 +121,7 @@ import {
 } from "@heroicons/vue/24/outline";
 import { useImageViewer } from "../composables/useImageViewer";
 import { useImageCache } from "../composables/useImageCache";
+import { useAnriLabels } from "../composables/useAnriLabels";
 import AnriOverlay from "./AnriOverlay.vue";
 import type { AnriLightboxLabels } from "../types";
 
@@ -128,13 +129,19 @@ const props = defineProps<{
     labels?: AnriLightboxLabels;
 }>();
 
-const text = computed(() => ({
-    close: props.labels?.close ?? "Close",
-    prev: props.labels?.prev ?? "Previous image",
-    next: props.labels?.next ?? "Next image",
-    zoom: props.labels?.zoom ?? "Wheel to zoom",
-    pan: props.labels?.pan ?? "Wheel to pan",
-}));
+const injectedLabels = useAnriLabels();
+
+const text = computed(() => {
+    const labels = injectedLabels?.value;
+    const lightbox = labels?.lightbox;
+    return {
+        close: props.labels?.close ?? labels?.close ?? "Close",
+        prev: props.labels?.prev ?? lightbox?.prev ?? "Previous image",
+        next: props.labels?.next ?? lightbox?.next ?? "Next image",
+        zoom: props.labels?.zoom ?? lightbox?.zoom ?? "Wheel to zoom",
+        pan: props.labels?.pan ?? lightbox?.pan ?? "Wheel to pan",
+    };
+});
 
 const { isOpen, images, currentIndex, closeViewer, nextImage, prevImage } =
     useImageViewer();
