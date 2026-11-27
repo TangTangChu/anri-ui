@@ -23,7 +23,7 @@ import { AnriButton, AnriDialog } from "anri-ui";
 </template>
 ```
 
-`AnriUI` 为 `AnriLightbox` 和 `useImageViewer` 注入应用级状态。状态按 Vue 应用隔离；SSR 下按请求隔离。
+`AnriUI` 为图片查看器（`AnriLightbox` / `useImageViewer`）与消息提示（`AnriToast` / `useToast`）注入应用级状态。状态按 Vue 应用隔离；SSR 下按请求隔离。
 
 包安装到 `node_modules` 后，Vite 默认会预构建依赖。需要在配置中排除该包：
 

@@ -36,6 +36,13 @@
                     <div class="min-h-0 overflow-y-auto overscroll-contain">
                         <slot></slot>
                     </div>
+
+                    <footer
+                        v-if="$slots.footer"
+                        class="flex shrink-0 items-center justify-end gap-3 px-6 pb-6 pt-4"
+                    >
+                        <slot name="footer" :close="close" />
+                    </footer>
                 </div>
             </Transition>
         </div>

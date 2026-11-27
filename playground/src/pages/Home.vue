@@ -342,15 +342,18 @@ const toggleMore = (): void => {
             </div>
 
             <AnriDialog v-model="showDialog" max-width="lg">
-                <div class="p-8">
+                <div class="px-6 pt-6">
                     <h3 class="text-xl font-bold">对话框</h3>
                     <p class="mt-2 text-on-background/60">
                         组件包含焦点陷阱，并支持 Esc 和点击遮罩关闭。
                     </p>
-                    <AnriButton class="mt-6" @click="showDialog = false">
-                        关闭
-                    </AnriButton>
                 </div>
+                <template #footer="{ close }">
+                    <AnriButton variant="soft" @click="close">
+                        取消
+                    </AnriButton>
+                    <AnriButton @click="close">确认</AnriButton>
+                </template>
             </AnriDialog>
 
             <AnriDrawer v-model:show="showDrawer" title="Drawer">

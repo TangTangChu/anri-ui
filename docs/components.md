@@ -8,7 +8,7 @@
 | `AnriTextarea` | 与 `AnriInput` 共用四种变体的多行输入框；`rows` 等原生属性可直接透传。 |
 | `AnriSelector` | 提供 pill 和 text 两种变体。 |
 | `AnriAlert` | 支持 info、succ、warn、error、important、plain 六种类型。 |
-| `AnriDialog` | 包含焦点陷阱，并支持 Esc 和点击遮罩关闭。 |
+| `AnriDialog` | 包含焦点陷阱，并支持 Esc 和点击遮罩关闭；`footer` 插槽的按钮默认右对齐，作用域暴露 `close`。 |
 | `AnriDrawer` | 从底部滑入的抽屉，不依赖特定屏幕断点；可用 `panel-class` 覆盖面板样式。 |
 | `AnriDropdown` | 支持点击外部关闭、悬停打开，以及 top 和 bottom 两个方向。 |
 | `AnriSelect` | 基于 `AnriDropdown` 实现，选项可以携带图片。 |
