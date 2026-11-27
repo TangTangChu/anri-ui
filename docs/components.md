@@ -3,7 +3,7 @@
 | 组件 | 说明 |
 | --- | --- |
 | `AnriButton` | 提供 primary、soft、outline、ghost 四种变体，支持 `to`、`href`、loading 和 icon slot。 |
-| `AnriInput` | 支持搜索图标、清空按钮，以及 icon 和 suffix slot。 |
+| `AnriInput` | 提供 default、soft、filled、ghost 四种变体；支持搜索图标、清空按钮，以及 icon 和 suffix slot。 |
 | `AnriSelector` | 提供 pill 和 text 两种变体。 |
 | `AnriAlert` | 支持 info、succ、warn、error、important、plain 六种类型。 |
 | `AnriDialog` | 包含焦点陷阱，并支持 Esc 和点击遮罩关闭。 |

@@ -14,7 +14,7 @@
             :value="modelValue"
             :disabled="props.disabled"
             :placeholder="props.placeholder"
-            class="w-full transition-all duration-200 ease-out outline-none rounded-xl border-2 font-bold bg-surface/50 text-on-background placeholder:text-on-background/30"
+            class="w-full transition-all duration-200 ease-out outline-none rounded-xl border-2 font-bold text-on-background placeholder:text-on-background/30"
             :class="[
                 sizeClasses[props.size],
                 variantClasses[props.variant],
@@ -55,7 +55,7 @@
 import { computed, useSlots } from "vue";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 
-type AnriInputVariant = "default" | "soft" | "ghost";
+type AnriInputVariant = "default" | "soft" | "filled" | "ghost";
 type AnriInputSize = "sm" | "md" | "lg";
 
 defineOptions({
@@ -107,7 +107,9 @@ const sizeClasses: Record<AnriInputSize, string> = {
 const variantClasses: Record<AnriInputVariant, string> = {
     default:
         "border-transparent bg-on-background/5 text-on-background hover:bg-on-background/10 focus:bg-on-background/10 focus:outline-none focus:ring-2 focus:ring-on-background/10",
-    soft: "border-on-background/5 bg-on-background/5 focus:bg-on-background/10 focus:border-on-background/20",
+    soft: "border-transparent bg-surface/70 hover:bg-on-background/10 focus:bg-on-background/10 focus:ring-2 focus:ring-on-background/10",
+    filled:
+        "border-transparent bg-surface-container hover:bg-on-background/10 focus:bg-on-background/10 focus:ring-2 focus:ring-on-background/10",
     ghost: "border-transparent bg-transparent hover:bg-on-background/5 focus:bg-on-background/5 focus:border-on-background/10",
 };
 

@@ -110,7 +110,28 @@ const toggleMore = (): void => {
                     v-model="query"
                     search
                     allow-clear
-                    placeholder="搜索内容..."
+                    placeholder="default 变体,搜索内容..."
+                />
+                <AnriInput
+                    v-model="query"
+                    variant="soft"
+                    search
+                    allow-clear
+                    placeholder="soft 变体,搜索内容..."
+                />
+                <AnriInput
+                    v-model="query"
+                    variant="filled"
+                    search
+                    allow-clear
+                    placeholder="filled 变体,搜索内容..."
+                />
+                <AnriInput
+                    v-model="query"
+                    variant="ghost"
+                    search
+                    allow-clear
+                    placeholder="ghost 变体,搜索内容..."
                 />
                 <AnriInput placeholder="禁用状态" disabled />
             </div>
