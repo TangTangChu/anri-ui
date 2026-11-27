@@ -21,3 +21,12 @@
 
 /* Tailwind 4 does not scan node_modules by default. */
 @source "../src/components";
+
+/*
+ * Reserve the scrollbar gutter on the viewport so locking body scroll
+ * (Dialog open) does not change the page width on platforms with
+ * classic, width-occupying scrollbars. Same as the source site's main.css.
+ */
+html {
+    scrollbar-gutter: stable;
+}
