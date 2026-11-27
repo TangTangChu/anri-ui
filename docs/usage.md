@@ -118,6 +118,8 @@ module 负责以下配置：
 | 字段 | 使用位置 |
 | --- | --- |
 | `close` | Dialog、Drawer、Lightbox |
+| `clear` | Input 清空 action |
+| `search` | Input 搜索 action |
 | `loading` | Spinner、LoadMore |
 | `pagination` | Pagination |
 | `loadMore` | LoadMore |

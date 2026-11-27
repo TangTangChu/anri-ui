@@ -54,6 +54,8 @@ export interface AnriToastItem {
 
 export interface AnriLabels {
     close?: string;
+    clear?: string;
+    search?: string;
     loading?: string;
     pagination?: AnriPaginationLabels;
     loadMore?: Omit<AnriLoadMoreLabels, "loading">;

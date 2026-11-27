@@ -4,7 +4,7 @@
 | --- | --- |
 | `AnriButton` | 提供 primary、soft、outline、ghost 四种变体，支持 `to`、`href`、loading 和 icon slot。 |
 | `AnriCheckbox` | 受控勾选框，通过 `v-model` 工作，默认 slot 提供标签文案。 |
-| `AnriInput` | 提供 default、soft、filled、ghost 四种变体；支持搜索图标、清空按钮，以及 icon 和 suffix slot。 |
+| `AnriInput` | 提供 default、soft、filled、ghost 四种变体；右侧操作区支持预制 action（`allow-clear` 清空、`allow-search` 搜索，回车同样触发 `search` 事件）与可点击的 `action` 插槽；`action-outside` 插槽在输入框外侧渲染操作，自带进出场位移动画（子元素需携带 key）。 |
 | `AnriTextarea` | 与 `AnriInput` 共用四种变体的多行输入框；`rows` 等原生属性可直接透传。 |
 | `AnriSelector` | 提供 pill 和 text 两种变体。 |
 | `AnriAlert` | 支持 info、succ、warn、error、important、plain 六种类型。 |
