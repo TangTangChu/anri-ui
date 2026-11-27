@@ -65,6 +65,7 @@ anri-ui 是一套 Vue 3 组件库，提供以 Anri 为前缀的通用 UI 组件�
 边框与焦点（本项目重点约束）：
 
 - 尽可能少用 border 设计；需要描边观感的交互反馈（聚焦、键盘焦点环、选中态高亮）一律使用 ring 实现，标准写法为 `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20`；
+- ring 的透明度档位与聚焦时的底色保持一致：底色为 `/5` 时 ring 同为 `/5`，底色为 `/10` 时 ring 同为 `/10`，避免描边比色底更深的失衡观感；
 - 现存组件中遗留的 border 用法（如 outline 变体）在迭代时顺势收敛，不要新增依赖 border 的样式。
 
 形状与层次：
