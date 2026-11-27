@@ -110,7 +110,7 @@ const variantClasses: Record<AnriInputVariant, string> = {
     soft: "border-transparent bg-surface/70 hover:bg-on-background/10 focus:bg-on-background/10 focus:ring-2 focus:ring-on-background/10",
     filled:
         "border-transparent bg-surface-container hover:bg-on-background/10 focus:bg-on-background/10 focus:ring-2 focus:ring-on-background/10",
-    ghost: "border-transparent bg-transparent hover:bg-on-background/5 focus:bg-on-background/5 focus:border-on-background/10",
+    ghost: "border-transparent bg-transparent hover:bg-on-background/5 focus:bg-on-background/5 focus:ring-2 focus:ring-on-background/5",
 };
 
 const onCompositionStart = () => {
