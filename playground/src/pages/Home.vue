@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import {
     AnriAlert,
     AnriButton,
@@ -46,6 +46,54 @@ const progressValue = ref(60);
 const checkboxOn = ref(true);
 const checkboxOff = ref(false);
 const radioValue = ref("tech");
+
+const searchText = ref("");
+const appliedKeyword = ref("");
+const caseSensitive = ref(false);
+const outerQuery = ref("");
+const outerCaseSensitive = ref(false);
+
+const searchItems = [
+    "Vue",
+    "vue-router",
+    "VueUse",
+    "Vuex",
+    "Nuxt",
+    "nuxt-content",
+    "Pinia",
+    "Vite",
+    "vitest",
+    "VS Code",
+];
+
+const filterItems = (keyword: string, sensitive: boolean): string[] => {
+    const normalized = sensitive ? keyword : keyword.toLowerCase();
+    if (!normalized) return searchItems;
+    return searchItems.filter((item) =>
+        sensitive
+            ? item.includes(normalized)
+            : item.toLowerCase().includes(normalized),
+    );
+};
+
+// 内侧 action：回车或点击放大镜后才应用关键词。
+const filteredItems = computed(() =>
+    filterItems(appliedKeyword.value, caseSensitive.value),
+);
+
+const onSearch = (): void => {
+    appliedKeyword.value = searchText.value;
+};
+
+// 清空输入（含清空 action）时同步重置已应用的关键词。
+watch(searchText, (value) => {
+    if (!value) appliedKeyword.value = "";
+});
+
+// 外侧 action：随输入实时过滤。
+const outerFilteredItems = computed(() =>
+    filterItems(outerQuery.value, outerCaseSensitive.value),
+);
 
 const radioOptions = [
     { label: "技术", value: "tech" },
@@ -125,45 +173,139 @@ const toggleMore = (): void => {
             <h2 class="text-2xl font-bold text-on-background">
                 Input / Textarea
             </h2>
-            <div class="mt-4 space-y-3">
-                <AnriInput
-                    v-model="query"
-                    search
-                    allow-clear
-                    placeholder="default 变体,搜索内容..."
-                />
-                <AnriInput
-                    v-model="query"
-                    variant="soft"
-                    search
-                    allow-clear
-                    placeholder="soft 变体,搜索内容..."
-                />
-                <AnriInput
-                    v-model="query"
-                    variant="filled"
-                    search
-                    allow-clear
-                    placeholder="filled 变体,搜索内容..."
-                />
-                <AnriInput
-                    v-model="query"
-                    variant="ghost"
-                    search
-                    allow-clear
-                    placeholder="ghost 变体,搜索内容..."
-                />
-                <AnriInput placeholder="禁用状态" disabled />
-                <AnriTextarea
-                    v-model="bio"
-                    placeholder="default 变体,介绍一下自己..."
-                />
-                <AnriTextarea
-                    v-model="bio"
-                    variant="filled"
-                    placeholder="filled 变体,介绍一下自己..."
-                />
-                <AnriTextarea placeholder="禁用状态" disabled />
+            <div class="mt-4 space-y-6">
+                <div>
+                    <p class="mb-2 text-sm text-on-background/50">
+                        内侧 action + 预制搜索
+                    </p>
+                    <AnriInput
+                        v-model="searchText"
+                        search
+                        allow-clear
+                        allow-search
+                        placeholder="搜索 Vue 生态,回车或点击放大镜..."
+                        @search="onSearch"
+                    >
+                        <template #action>
+                            <button
+                                type="button"
+                                class="rounded-lg px-1.5 py-1 text-xs font-bold leading-none transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
+                                :class="
+                                    caseSensitive
+                                        ? 'bg-primary/10 text-primary'
+                                        : 'text-on-background/40 hover:bg-primary/5 hover:text-primary'
+                                "
+                                title="区分大小写"
+                                :aria-pressed="caseSensitive"
+                                @click="caseSensitive = !caseSensitive"
+                            >
+                                Aa
+                            </button>
+                        </template>
+                    </AnriInput>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span
+                            v-for="item in filteredItems"
+                            :key="item"
+                            class="rounded-lg bg-on-background/5 px-2.5 py-1 text-sm text-on-background/70"
+                        >
+                            {{ item }}
+                        </span>
+                        <span
+                            v-if="filteredItems.length === 0"
+                            class="py-1 text-sm text-on-background/50"
+                        >
+                            没有匹配项
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="mb-2 text-sm text-on-background/50">
+                        外侧 action + 预制清空
+                    </p>
+                    <AnriInput
+                        v-model="outerQuery"
+                        search
+                        allow-clear
+                        placeholder="实时搜索,输入时外侧出现 Aa..."
+                    >
+                        <template #action-outside>
+                            <button
+                                v-if="outerQuery"
+                                key="aa"
+                                type="button"
+                                class="flex aspect-square h-full items-center justify-center rounded-lg text-xs font-bold leading-none transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
+                                :class="
+                                    outerCaseSensitive
+                                        ? 'bg-primary/10 text-primary hover:bg-primary/15'
+                                        : 'bg-on-background/5 text-on-background/40 hover:bg-on-background/10 hover:text-primary'
+                                "
+                                title="区分大小写"
+                                :aria-pressed="outerCaseSensitive"
+                                @click="outerCaseSensitive = !outerCaseSensitive"
+                            >
+                                Aa
+                            </button>
+                        </template>
+                    </AnriInput>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span
+                            v-for="item in outerFilteredItems"
+                            :key="item"
+                            class="rounded-lg bg-on-background/5 px-2.5 py-1 text-sm text-on-background/70"
+                        >
+                            {{ item }}
+                        </span>
+                        <span
+                            v-if="outerFilteredItems.length === 0"
+                            class="py-1 text-sm text-on-background/50"
+                        >
+                            没有匹配项
+                        </span>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <AnriInput
+                        v-model="query"
+                        search
+                        allow-clear
+                        placeholder="default 变体,搜索内容..."
+                    />
+                    <AnriInput
+                        v-model="query"
+                        variant="soft"
+                        search
+                        allow-clear
+                        placeholder="soft 变体,搜索内容..."
+                    />
+                    <AnriInput
+                        v-model="query"
+                        variant="filled"
+                        search
+                        allow-clear
+                        placeholder="filled 变体,搜索内容..."
+                    />
+                    <AnriInput
+                        v-model="query"
+                        variant="ghost"
+                        search
+                        allow-clear
+                        placeholder="ghost 变体,搜索内容..."
+                    />
+                    <AnriInput placeholder="禁用状态" disabled />
+                    <AnriTextarea
+                        v-model="bio"
+                        placeholder="default 变体,介绍一下自己..."
+                    />
+                    <AnriTextarea
+                        v-model="bio"
+                        variant="filled"
+                        placeholder="filled 变体,介绍一下自己..."
+                    />
+                    <AnriTextarea placeholder="禁用状态" disabled />
+                </div>
             </div>
         </section>
 
