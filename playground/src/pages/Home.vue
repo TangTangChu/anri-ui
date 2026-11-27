@@ -31,7 +31,6 @@ import {
 const query = ref("");
 const bio = ref("");
 const category = ref("all");
-const selected = ref("one");
 const selectValue = ref("zh");
 const page = ref(2);
 const showDialog = ref(false);
@@ -92,25 +91,23 @@ const toggleMore = (): void => {
 </script>
 
 <template>
-    <div class="space-y-10">
-        <header class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-extrabold text-primary">
-                    Anri UI Playground
-                </h1>
-                <p class="mt-1 text-sm text-on-background/60">
-                    Vue 3 与 Tailwind CSS 4 示例。
-                </p>
-            </div>
-            <div class="flex items-center gap-2">
+    <div class="mx-auto w-full max-w-4xl space-y-10">
+        <header class="text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight text-primary">
+                Anri UI Playground
+            </h1>
+            <p class="mt-3 text-on-background/60">
+                Vue 3 与 Tailwind CSS 4 示例。
+            </p>
+            <div class="mt-5 flex items-center justify-center gap-2">
                 <AnriLocaleSelect v-model="locale" :locales="locales" />
                 <AnriThemeToggle :is-dark="isDark" @toggle="toggleTheme" />
             </div>
         </header>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Buttons</h2>
-            <div class="flex flex-wrap items-center gap-3">
+            <h2 class="text-2xl font-bold text-on-background">Buttons</h2>
+            <div class="mt-4 flex flex-wrap items-center gap-3">
                 <AnriButton>主要按钮</AnriButton>
                 <AnriButton variant="soft">柔和按钮</AnriButton>
                 <AnriButton variant="outline">描边按钮</AnriButton>
@@ -125,8 +122,10 @@ const toggleMore = (): void => {
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Input / Selector</h2>
-            <div class="max-w-md space-y-3">
+            <h2 class="text-2xl font-bold text-on-background">
+                Input / Textarea
+            </h2>
+            <div class="mt-4 space-y-3">
                 <AnriInput
                     v-model="query"
                     search
@@ -166,33 +165,48 @@ const toggleMore = (): void => {
                 />
                 <AnriTextarea placeholder="禁用状态" disabled />
             </div>
-            <div class="mt-4">
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-on-background">Selector</h2>
+            <div class="mt-4 space-y-3">
                 <AnriSelector v-model="category" :options="categories" />
+                <AnriSelector
+                    v-model="category"
+                    variant="text"
+                    :options="categories"
+                />
             </div>
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">
-                Switch / Checkbox / Radio / Progress
+            <h2 class="text-2xl font-bold text-on-background">
+                Switch / Checkbox / Radio
             </h2>
-            <div class="flex flex-wrap items-center gap-6">
-                <AnriSwitch v-model="switchOn" />
-                <AnriSwitch v-model="switchOff" size="lg" />
-                <AnriSwitch :model-value="false" disabled />
-            </div>
-            <div class="mt-4 flex flex-wrap items-center gap-6">
-                <AnriCheckbox v-model="checkboxOn">同意许可协议</AnriCheckbox>
-                <AnriCheckbox v-model="checkboxOff">订阅更新</AnriCheckbox>
-                <AnriCheckbox :model-value="false" disabled>已停用</AnriCheckbox>
-            </div>
-            <div class="mt-4 max-w-md">
+            <div class="mt-4 space-y-4">
+                <div class="flex flex-wrap items-center gap-6">
+                    <AnriSwitch v-model="switchOn" />
+                    <AnriSwitch v-model="switchOff" size="lg" />
+                    <AnriSwitch :model-value="false" disabled />
+                </div>
+                <div class="flex flex-wrap items-center gap-6">
+                    <AnriCheckbox v-model="checkboxOn">同意许可协议</AnriCheckbox>
+                    <AnriCheckbox v-model="checkboxOff">订阅更新</AnriCheckbox>
+                    <AnriCheckbox :model-value="false" disabled>
+                        已停用
+                    </AnriCheckbox>
+                </div>
                 <AnriRadioGroup
                     v-model="radioValue"
                     :options="radioOptions"
                     label="内容分类"
                 />
             </div>
-            <div class="mt-4 max-w-md space-y-3">
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-on-background">Progress</h2>
+            <div class="mt-4 space-y-3">
                 <AnriProgress :value="progressValue" />
                 <AnriProgress indeterminate label="加载中" />
                 <AnriProgress
@@ -226,8 +240,8 @@ const toggleMore = (): void => {
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Alerts</h2>
-            <div class="space-y-3">
+            <h2 class="text-2xl font-bold text-on-background">Alerts</h2>
+            <div class="mt-4 space-y-3">
                 <AnriAlert type="info">信息提示</AnriAlert>
                 <AnriAlert type="succ">成功提示</AnriAlert>
                 <AnriAlert type="warn">警告提示</AnriAlert>
@@ -239,41 +253,49 @@ const toggleMore = (): void => {
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Overlays</h2>
-            <div class="flex flex-wrap gap-3">
-                <AnriButton @click="showDialog = true">打开对话框</AnriButton>
-                <AnriButton variant="soft" @click="showDrawer = true">
-                    打开抽屉
+            <h2 class="text-2xl font-bold text-on-background">Feedback</h2>
+            <div class="mt-4 flex flex-wrap items-center gap-6">
+                <AnriSpinner />
+                <AnriSpinner size="sm" color="secondary" />
+                <AnriSpinner size="lg" color="current" />
+                <AnriTooltip content="浮动提示">
+                    <AnriButton variant="ghost">悬停查看</AnriButton>
+                </AnriTooltip>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-3">
+                <AnriButton
+                    variant="soft"
+                    @click="showToast('info', '这是一条信息提示')"
+                >
+                    信息 Toast
+                </AnriButton>
+                <AnriButton
+                    variant="soft"
+                    @click="showToast('succ', '保存成功')"
+                >
+                    成功 Toast
+                </AnriButton>
+                <AnriButton
+                    variant="soft"
+                    @click="showToast('warn', '内容较长时消息会自动换行显示')"
+                >
+                    警告 Toast
+                </AnriButton>
+                <AnriButton
+                    variant="soft"
+                    @click="showToast('error', '出错了，这条消息需要手动关闭', 0)"
+                >
+                    常驻错误 Toast
                 </AnriButton>
             </div>
-
-            <AnriDialog v-model="showDialog" max-width="lg">
-                <div class="p-8">
-                    <h3 class="text-xl font-bold">对话框</h3>
-                    <p class="mt-2 text-on-background/60">
-                        组件包含焦点陷阱，并支持 Esc 和点击遮罩关闭。
-                    </p>
-                    <AnriButton class="mt-6" @click="showDialog = false">
-                        关闭
-                    </AnriButton>
-                </div>
-            </AnriDialog>
-
-            <AnriDrawer v-model:show="showDrawer" title="Drawer">
-                <div class="space-y-3">
-                    <p class="text-sm text-on-background/60">
-                        从底部滑入的抽屉，不依赖特定屏幕断点。
-                    </p>
-                    <AnriButton block @click="showDrawer = false">
-                        关闭
-                    </AnriButton>
-                </div>
-            </AnriDrawer>
+            <AnriToast />
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Dropdown / Select</h2>
-            <div class="flex flex-wrap items-center gap-4">
+            <h2 class="text-2xl font-bold text-on-background">
+                Dropdown / Select
+            </h2>
+            <div class="mt-4 flex flex-wrap items-center gap-4">
                 <AnriDropdown v-model="dropdownOpen">
                     <template #trigger="{ toggle }">
                         <AnriButton variant="outline" @click="toggle">
@@ -311,52 +333,61 @@ const toggleMore = (): void => {
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Pagination / Load more</h2>
-            <AnriPagination
-                :current-page="page"
-                :total-pages="8"
-                @page-change="page = $event"
-            />
-            <AnriLoadMore
-                :has-more="hasMore"
-                :loading="loading"
-                @load-more="toggleMore"
-            />
-        </section>
-
-        <section>
-            <h2 class="mb-3 text-lg font-bold">Feedback</h2>
-            <div class="flex flex-wrap items-center gap-6">
-                <AnriSpinner />
-                <AnriSpinner size="sm" color="secondary" />
-                <AnriSpinner size="lg" color="current" />
-                <AnriTooltip content="浮动提示">
-                    <AnriButton variant="ghost">悬停查看</AnriButton>
-                </AnriTooltip>
-            </div>
+            <h2 class="text-2xl font-bold text-on-background">Overlays</h2>
             <div class="mt-4 flex flex-wrap gap-3">
-                <AnriButton variant="soft" @click="showToast('info', '这是一条信息提示')">
-                    信息 Toast
-                </AnriButton>
-                <AnriButton variant="soft" @click="showToast('succ', '保存成功')">
-                    成功 Toast
-                </AnriButton>
-                <AnriButton variant="soft" @click="showToast('warn', '内容较长时消息会自动换行显示')">
-                    警告 Toast
-                </AnriButton>
-                <AnriButton
-                    variant="soft"
-                    @click="showToast('error', '出错了，这条消息需要手动关闭', 0)"
-                >
-                    常驻错误 Toast
+                <AnriButton @click="showDialog = true">打开对话框</AnriButton>
+                <AnriButton variant="soft" @click="showDrawer = true">
+                    打开抽屉
                 </AnriButton>
             </div>
-            <AnriToast />
+
+            <AnriDialog v-model="showDialog" max-width="lg">
+                <div class="p-8">
+                    <h3 class="text-xl font-bold">对话框</h3>
+                    <p class="mt-2 text-on-background/60">
+                        组件包含焦点陷阱，并支持 Esc 和点击遮罩关闭。
+                    </p>
+                    <AnriButton class="mt-6" @click="showDialog = false">
+                        关闭
+                    </AnriButton>
+                </div>
+            </AnriDialog>
+
+            <AnriDrawer v-model:show="showDrawer" title="Drawer">
+                <div class="space-y-3">
+                    <p class="text-sm text-on-background/60">
+                        从底部滑入的抽屉，不依赖特定屏幕断点。
+                    </p>
+                    <AnriButton block @click="showDrawer = false">
+                        关闭
+                    </AnriButton>
+                </div>
+            </AnriDrawer>
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Image / Lightbox</h2>
-            <div class="flex flex-wrap items-center gap-4">
+            <h2 class="text-2xl font-bold text-on-background">
+                Pagination / Load more
+            </h2>
+            <div class="mt-4 space-y-3">
+                <AnriPagination
+                    :current-page="page"
+                    :total-pages="8"
+                    @page-change="page = $event"
+                />
+                <AnriLoadMore
+                    :has-more="hasMore"
+                    :loading="loading"
+                    @load-more="toggleMore"
+                />
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-on-background">
+                Image / Lightbox
+            </h2>
+            <div class="mt-4 flex flex-wrap items-center gap-4">
                 <div class="h-24 w-24 overflow-hidden rounded-xl">
                     <AnriImage :src="imageUrl" alt="avatar" />
                 </div>
@@ -368,11 +399,13 @@ const toggleMore = (): void => {
         </section>
 
         <section>
-            <h2 class="mb-3 text-lg font-bold">Prev / Next</h2>
-            <AnriPrevNextNav
-                :prev="{ to: '/a', title: 'Page A' }"
-                :next="{ to: '/b', title: 'Page B' }"
-            />
+            <h2 class="text-2xl font-bold text-on-background">Prev / Next</h2>
+            <div class="mt-4">
+                <AnriPrevNextNav
+                    :prev="{ to: '/a', title: 'Page A' }"
+                    :next="{ to: '/b', title: 'Page B' }"
+                />
+            </div>
         </section>
     </div>
 </template>
