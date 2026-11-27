@@ -3,6 +3,7 @@ import { ref } from "vue";
 import {
     AnriAlert,
     AnriButton,
+    AnriCheckbox,
     AnriDialog,
     AnriDrawer,
     AnriDropdown,
@@ -13,15 +14,22 @@ import {
     AnriLocaleSelect,
     AnriPagination,
     AnriPrevNextNav,
+    AnriProgress,
+    AnriRadioGroup,
     AnriSelect,
     AnriSelector,
     AnriSpinner,
+    AnriSwitch,
+    AnriTextarea,
     AnriThemeToggle,
+    AnriToast,
     AnriTooltip,
     useImageViewer,
+    useToast,
 } from "anri-ui";
 
 const query = ref("");
+const bio = ref("");
 const category = ref("all");
 const selected = ref("one");
 const selectValue = ref("zh");
@@ -33,8 +41,21 @@ const isDark = ref(false);
 const locale = ref("zh");
 const loading = ref(false);
 const hasMore = ref(true);
+const switchOn = ref(true);
+const switchOff = ref(false);
+const progressValue = ref(60);
+const checkboxOn = ref(true);
+const checkboxOff = ref(false);
+const radioValue = ref("tech");
+
+const radioOptions = [
+    { label: "技术", value: "tech" },
+    { label: "生活", value: "life" },
+    { label: "加密内容", value: "secret", disabled: true },
+];
 
 const { openViewer } = useImageViewer();
+const { showToast } = useToast();
 
 const imageUrl = "https://img.tantanchugasuki.cn/i/r/avatar";
 
@@ -134,9 +155,73 @@ const toggleMore = (): void => {
                     placeholder="ghost 变体,搜索内容..."
                 />
                 <AnriInput placeholder="禁用状态" disabled />
+                <AnriTextarea
+                    v-model="bio"
+                    placeholder="default 变体,介绍一下自己..."
+                />
+                <AnriTextarea
+                    v-model="bio"
+                    variant="filled"
+                    placeholder="filled 变体,介绍一下自己..."
+                />
+                <AnriTextarea placeholder="禁用状态" disabled />
             </div>
             <div class="mt-4">
                 <AnriSelector v-model="category" :options="categories" />
+            </div>
+        </section>
+
+        <section>
+            <h2 class="mb-3 text-lg font-bold">
+                Switch / Checkbox / Radio / Progress
+            </h2>
+            <div class="flex flex-wrap items-center gap-6">
+                <AnriSwitch v-model="switchOn" />
+                <AnriSwitch v-model="switchOff" size="lg" />
+                <AnriSwitch :model-value="false" disabled />
+            </div>
+            <div class="mt-4 flex flex-wrap items-center gap-6">
+                <AnriCheckbox v-model="checkboxOn">同意许可协议</AnriCheckbox>
+                <AnriCheckbox v-model="checkboxOff">订阅更新</AnriCheckbox>
+                <AnriCheckbox :model-value="false" disabled>已停用</AnriCheckbox>
+            </div>
+            <div class="mt-4 max-w-md">
+                <AnriRadioGroup
+                    v-model="radioValue"
+                    :options="radioOptions"
+                    label="内容分类"
+                />
+            </div>
+            <div class="mt-4 max-w-md space-y-3">
+                <AnriProgress :value="progressValue" />
+                <AnriProgress indeterminate label="加载中" />
+                <AnriProgress
+                    :value="progressValue"
+                    color="secondary"
+                    size="sm"
+                />
+                <AnriProgress
+                    :value="progressValue"
+                    color="current"
+                    size="lg"
+                    label="加载进度"
+                />
+            </div>
+            <div class="mt-4 flex gap-3">
+                <AnriButton
+                    variant="ghost"
+                    size="sm"
+                    @click="progressValue = Math.max(0, progressValue - 10)"
+                >
+                    -10
+                </AnriButton>
+                <AnriButton
+                    variant="ghost"
+                    size="sm"
+                    @click="progressValue = Math.min(100, progressValue + 10)"
+                >
+                    +10
+                </AnriButton>
             </div>
         </section>
 
@@ -249,6 +334,24 @@ const toggleMore = (): void => {
                     <AnriButton variant="ghost">悬停查看</AnriButton>
                 </AnriTooltip>
             </div>
+            <div class="mt-4 flex flex-wrap gap-3">
+                <AnriButton variant="soft" @click="showToast('info', '这是一条信息提示')">
+                    信息 Toast
+                </AnriButton>
+                <AnriButton variant="soft" @click="showToast('succ', '保存成功')">
+                    成功 Toast
+                </AnriButton>
+                <AnriButton variant="soft" @click="showToast('warn', '内容较长时消息会自动换行显示')">
+                    警告 Toast
+                </AnriButton>
+                <AnriButton
+                    variant="soft"
+                    @click="showToast('error', '出错了，这条消息需要手动关闭', 0)"
+                >
+                    常驻错误 Toast
+                </AnriButton>
+            </div>
+            <AnriToast />
         </section>
 
         <section>
