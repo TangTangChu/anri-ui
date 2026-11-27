@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { provideAnriLabels } from "anri-ui";
+import BackgroundDecoration from "./components/BackgroundDecoration.vue";
 
 provideAnriLabels({
     close: "关闭",
@@ -31,7 +32,8 @@ provideAnriLabels({
 </script>
 
 <template>
-    <main class="mx-auto w-full max-w-5xl px-4 py-8">
+    <BackgroundDecoration />
+    <main class="relative z-10 mx-auto w-full max-w-5xl px-4 py-8">
         <RouterView />
     </main>
 </template>
