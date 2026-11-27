@@ -44,6 +44,14 @@ export interface AnriLightboxLabels {
     pan?: string;
 }
 
+export type AnriToastType = "info" | "succ" | "warn" | "error" | "plain";
+
+export interface AnriToastItem {
+    id: number;
+    type: AnriToastType;
+    message: string;
+}
+
 export interface AnriLabels {
     close?: string;
     loading?: string;
